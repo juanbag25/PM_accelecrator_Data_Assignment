@@ -6,44 +6,44 @@
 # (GDAL, compilers) that are painful to build with pip on Windows; conda-forge
 # ships prebuilt binaries.
 #
-# This file is the pip-equivalent reference and is kept in sync as packages are
-# installed. Exact versions are pinned once the environment is finalized.
-# PyTorch must be installed as a CPU build (see the optional section).
+# Versions below are pinned to what is installed in the `weather-forecasting`
+# conda env (Python 3.11). PyTorch must be installed as a CPU build (optional
+# section). Run Python via: conda run -n weather-forecasting python ...
 # =============================================================================
 
 # --- Core data stack ---
-pandas
-numpy
-scipy
-scikit-learn
-pyarrow            # parquet I/O
+pandas==3.0.3
+numpy==2.4.6
+scipy==1.17.1
+scikit-learn==1.9.0
+pyarrow==24.0.0            # parquet I/O
 
 # --- Visualization ---
-matplotlib
-seaborn
-plotly
+matplotlib==3.11.0
+seaborn==0.13.2
+plotly==6.8.0
 
 # --- Classical time series ---
-statsmodels
-pmdarima           # conda-forge recommended on Windows
-prophet            # conda-forge recommended on Windows
+statsmodels==0.14.6
+pmdarima==2.0.4            # conda-forge (works with numpy 2.x here)
+prophet==1.3.0            # conda-forge
 
 # --- Gradient boosting (primary model family) ---
-lightgbm
-xgboost
+lightgbm==4.6.0
+xgboost==3.2.0
 
 # --- Feature importance / explainability ---
-shap
+shap==0.51.0
 
 # --- Climate / geospatial analysis ---
-pymannkendall
-pycountry-convert
-geopandas          # conda-forge recommended on Windows (pulls GDAL)
-folium
+pymannkendall==1.4.3
+pycountry-convert==0.7.2
+geopandas==1.1.4          # conda-forge (pulls GDAL)
+folium==0.20.0
 
 # --- Config / utilities ---
-pyyaml
-tqdm
+pyyaml==6.0.3
+tqdm==4.68.3
 
 # =============================================================================
 # OPTIONAL — heavier, only if time allows (model Tiers 3-4). Install on demand.

@@ -33,8 +33,14 @@ Always follow it in order and produce each phase's output artifact before moving
 - **OS:** Windows 11 Home (10.0.26200), 64-bit.
 - **CPU:** Intel Core Ultra 9 285H — 16 cores / 16 logical. **No GPU / no CUDA.**
 - **RAM:** ~31 GB.
-- **Python:** Anaconda3 base has Python 3.13; project uses a **dedicated conda env**
-  (`weather-forecasting`, Python 3.11) — see `environment.yml`. Always work inside it.
+- **Python:** dedicated conda env **`weather-forecasting` (Python 3.11)** — created and
+  verified (see `environment.yml`). Anaconda3 base has Python 3.13; do not use it.
+  - **Run Python via `conda run -n weather-forecasting python ...`** (or activate the env).
+    Calling the env's `python.exe` directly on Windows crashes on native DLL loading.
+  - Key installed versions: **pandas 3.0.3** (Copy-on-Write is ON by default — avoid
+    chained assignment; `dt.weekofyear` is gone, use `dt.isocalendar().week`),
+    numpy 2.4.6, lightgbm 4.6.0, pmdarima 2.0.4, prophet 1.3.0, geopandas 1.1.4,
+    shap 0.51.0. Exact pins in `requirements.txt`.
 - **Model strategy given CPU-only:**
   - PRIMARY: global **LightGBM** (CPU-native, fast, handles NaN, no scaling).
   - Deep learning (N-BEATS/NHITS/TFT) is OPTIONAL — small configs, never block the
@@ -94,6 +100,7 @@ config.yaml             global conventions
 
 ## Progress
 
-- [x] Phase 0 — Project setup (structure, config, deps) — *env creation pending Juan's OK*
+- [x] Phase 0 — scaffolding + conda env created & verified (20/20 core pkgs import).
+      Remaining: initial CSV load (step 0.4) — needs the raw CSV.
 - [ ] Phase 1 — Data audit  ← **needs the raw CSV in data/raw/**
 - [ ] Phases 2-10 — see `guia_pipeline_weather.md`
