@@ -1,0 +1,58 @@
+# =============================================================================
+# Weather Trend Forecasting — Python dependencies
+# =============================================================================
+# Recommended install path on Windows (no GPU): use the conda environment
+# (see environment.yml). geopandas / pmdarima / prophet pull native libraries
+# (GDAL, compilers) that are painful to build with pip on Windows; conda-forge
+# ships prebuilt binaries.
+#
+# This file is the pip-equivalent reference and is kept in sync as packages are
+# installed. Exact versions are pinned once the environment is finalized.
+# PyTorch must be installed as a CPU build (see the optional section).
+# =============================================================================
+
+# --- Core data stack ---
+pandas
+numpy
+scipy
+scikit-learn
+pyarrow            # parquet I/O
+
+# --- Visualization ---
+matplotlib
+seaborn
+plotly
+
+# --- Classical time series ---
+statsmodels
+pmdarima           # conda-forge recommended on Windows
+prophet            # conda-forge recommended on Windows
+
+# --- Gradient boosting (primary model family) ---
+lightgbm
+xgboost
+
+# --- Feature importance / explainability ---
+shap
+
+# --- Climate / geospatial analysis ---
+pymannkendall
+pycountry-convert
+geopandas          # conda-forge recommended on Windows (pulls GDAL)
+folium
+
+# --- Config / utilities ---
+pyyaml
+tqdm
+
+# =============================================================================
+# OPTIONAL — heavier, only if time allows (model Tiers 3-4). Install on demand.
+# =============================================================================
+# PyTorch CPU build (required by the deep-learning and foundational models):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# torch
+# neuralforecast          # N-BEATS / NHITS / TFT
+# darts                   # alternative TS framework
+# autogluon.timeseries    # Chronos (Bolt) zero-shot foundational model
+# optuna                  # hyperparameter tuning
+# streamlit               # optional dashboard

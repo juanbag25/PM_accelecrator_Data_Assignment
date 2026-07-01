@@ -1,0 +1,46 @@
+# =============================================================================
+# Conda environment for the Weather Trend Forecasting pipeline.
+# Robust install path on Windows (no GPU). Create and activate with:
+#   conda env create -f environment.yml
+#   conda activate weather-forecasting
+#
+# Python 3.11 is chosen for maximum compatibility across the forecasting stack
+# (pmdarima, prophet, and the optional autogluon / neuralforecast), which lags
+# a few versions behind the newest Python release.
+# =============================================================================
+name: weather-forecasting
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  # Core data stack
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - pyarrow
+  # Visualization
+  - matplotlib
+  - seaborn
+  - plotly
+  # Classical time series (native deps handled by conda-forge)
+  - statsmodels
+  - pmdarima
+  - prophet
+  # Gradient boosting
+  - lightgbm
+  - xgboost
+  # Feature importance
+  - shap
+  # Climate / geospatial (GDAL handled by conda-forge)
+  - geopandas
+  - folium
+  - pymannkendall
+  # Config / utils / notebooks
+  - pyyaml
+  - tqdm
+  - jupyterlab
+  - ipykernel
+  - pip:
+      - pycountry-convert

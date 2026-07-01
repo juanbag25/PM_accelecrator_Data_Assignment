@@ -1,0 +1,64 @@
+# =============================================================================
+# Global configuration for the Weather Trend Forecasting pipeline.
+# Single source of truth for the conventions used across src/ and notebooks/.
+# Nothing time/target/path-related should be hard-coded elsewhere — read it here.
+# =============================================================================
+
+project:
+  name: weather-trend-forecasting
+  seed: 42                         # fixed for every stochastic step (Golden Rule)
+
+data:
+  # Confirm the EXACT filename against data/raw/ before loading (Phase 0.4 / 1).
+  raw_csv: data/raw/GlobalWeatherRepository.csv
+  processed_dir: data/processed
+  clean_parquet: data/processed/clean.parquet
+  features_parquet: data/processed/features.parquet
+
+target:
+  primary: temperature_celsius
+  secondary:
+    - air_quality_PM2.5
+    - precip_mm
+
+time:
+  raw_timestamp: last_updated      # parsed to datetime
+  date_col: date                   # normalized to day granularity
+  series_key: location_name        # one daily series per city
+  disambiguation_key: country      # to separate homonymous cities
+
+forecast:
+  horizons: [7, 14]                # primary H = 7 days; also probe 14
+  primary_horizon: 7
+
+split:
+  # Temporal split by date quantiles — NEVER random. Test is touched once, at the end.
+  train_quantile: 0.70             # oldest ~70% -> train
+  val_quantile: 0.85               # middle ~15% -> validation (decisions)
+  # remaining ~15% (newest) -> test (report only)
+
+features:
+  lags: [1, 2, 3, 7, 14, 30]
+  rolling_windows: [7, 14, 30]
+
+# Redundant / imperial columns to drop in Phase 2 (keep the metric system).
+# Confirm exact names against the real CSV header in Phase 1 before dropping.
+drop_columns:
+  - temperature_fahrenheit
+  - wind_mph
+  - pressure_in
+  - precip_in
+  - visibility_miles
+  - gust_mph
+  - feels_like_fahrenheit
+  - last_updated_epoch
+
+paths:
+  figures_dir: reports/figures
+  metrics_dir: reports/metrics
+  models_dir: models
+  audit_report: reports/data_audit.md
+  eda_notes: reports/eda_notes.md
+  selected_features: reports/selected_features.json
+  model_comparison: reports/model_comparison.md
+  advanced_findings: reports/advanced_findings.md
