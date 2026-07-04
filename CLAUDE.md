@@ -1,8 +1,13 @@
 # CLAUDE.md — Project operating rules (persist across sessions)
 
-End-to-end weather **trend forecasting** pipeline (panel of ~200 capital cities,
-daily since Aug 2023, 40+ features) for the PM Accelerator technical assessment.
-Primary target: `temperature_celsius`. Primary model: **global LightGBM**.
+End-to-end weather **trend forecasting** pipeline for the PM Accelerator technical
+assessment. Primary target: `temperature_celsius`. Primary model: **global LightGBM**.
+
+**Real dataset facts (from the Phase 1 audit — the brief was imprecise):**
+- Snapshot spans **2024-05-16 → 2026-07-03** (~779 days), NOT "since Aug 2023".
+- Series key is **(`location_name`, `country`)** — 15 homonyms make `location_name`
+  alone ambiguous. After consolidating name variants: **265 series** (222 with ≥90 days).
+- 0 explicit NaNs in the raw CSV, but ~10% of calendar days were missing (now imputed).
 
 The full step-by-step spec lives in `guia_pipeline_weather.md` (10 phases).
 Always follow it in order and produce each phase's output artifact before moving on.
@@ -100,7 +105,10 @@ config.yaml             global conventions
 
 ## Progress
 
-- [x] Phase 0 — scaffolding + conda env created & verified (20/20 core pkgs import).
-      Remaining: initial CSV load (step 0.4) — needs the raw CSV.
-- [ ] Phase 1 — Data audit  ← **needs the raw CSV in data/raw/**
-- [ ] Phases 2-10 — see `guia_pipeline_weather.md`
+- [x] Phase 0 — scaffolding + conda env (20/20 core pkgs verified).
+- [x] Phase 1 — Data audit → `reports/data_audit.md` (`src/data_audit.py`).
+- [x] Phase 2 — Cleaning → `data/processed/clean.parquet` (`src/cleaning.py`):
+      165k rows, 265 series, name variants consolidated, gaps imputed,
+      physical outliers clipped + flagged (`is_outlier`, `is_imputed`).
+- [ ] Phase 3 — Feature engineering ← **next**
+- [ ] Phases 4-10 — see `guia_pipeline_weather.md`

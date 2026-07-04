@@ -41,6 +41,14 @@ features:
   lags: [1, 2, 3, 7, 14, 30]
   rolling_windows: [7, 14, 30]
 
+cleaning:
+  # Consolidate same-city name variants (typos / renamed stations) within a country.
+  variant_same_point_deg: 0.05   # near-identical coords => spelling variant, merge regardless of time overlap
+  variant_coord_tol_deg: 0.5     # nearby (but not identical) coords: candidate merge if closer than this...
+  variant_overlap_tol_days: 20   # ...AND their date ranges barely overlap (complementary, not parallel)
+  # Series shorter than this stay in clean.parquet but are excluded from global modeling (Phase 6).
+  min_series_days: 90
+
 # Redundant / imperial columns to drop in Phase 2 (keep the metric system).
 # Confirm exact names against the real CSV header in Phase 1 before dropping.
 drop_columns:
